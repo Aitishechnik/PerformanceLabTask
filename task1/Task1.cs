@@ -1,62 +1,81 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace PerformanceLabTask
 {
     public class Task1
     {
         private const int CLOSING_VALUE = 1;
 
-        public static void GetCirculArarrayPath(int n, int m)
+        public static void Solution()
         {
-            Console.WriteLine(GetCurcularValue(n));
+            int n = 0;
+            int m = 0;
+
+            while(n <= 0)
+            {
+                Console.WriteLine("Задайте целочисленное значение больше 0");
+                if(int.TryParse(Console.ReadLine(), out int input) && input > 0)
+                    n = input;
+                else
+                    Console.Clear();
+            }
+            Console.Clear();
+            
+            while(m <= 0 || m > n)
+            {
+                Console.WriteLine("Задайте целочисленное значение в диапазоне от 1 до n\nТекущее значение n = " + n);
+                if (int.TryParse(Console.ReadLine(), out int input) && input > 0 && input <= n)
+                    m = input;
+                else
+                    Console.Clear();
+            }
+            Console.Clear();
+            Console.Write("Полученный путь: ");
+            var result = GetCircularArrayValues(n,m);
+            for (int i = 0; i < result.Count; i++) 
+                Console.Write(result[i] + (i == result.Count-1? "." : ", "));
         }
 
-        private static List<int> GetCurcularArrays(int initialValue, int subarrayLength)
+        private static List<int> GetCircularArrayValues(int n, int m)
         {
-            List<int> ints = new List<int>();
-            int currentValue = initialValue;
+            List<int> ints = new List<int>() {CLOSING_VALUE};
+            var initialArray = GetInitialArray(n);
+            var arrayPartition = CutArray(initialArray, m);
 
             do
             {
-                ints.Add(currentValue);
-
-
-            } while (currentValue % 10 != CLOSING_VALUE);
-        }
-
-
-        private static int ShiftDigits(int firstDigit, int initialValue)
-        {
-            int result = initialValue;
-
-            while (GetFirstDigit(result) != firstDigit)
-            {
-
+                arrayPartition = CutArray(ShiftValues(initialArray, arrayPartition[^1]), m);
+                ints.Add(arrayPartition[0]);
             }
+            while (arrayPartition[^1] != CLOSING_VALUE);
+            return ints;
         }
 
-        private static int GetFirstDigit(int value)
+        private static int[] ShiftValues(int[] initialArray, int index)
         {
-            while (value / 10 > 0) value /= 10;
-            return value;
-        }
+            int[] result = new int[initialArray.Length];
 
-        private static int GetCurcularValue(int initalValue)
-        {
-            int result = 0;
-
-            for(int i = 0; i <= initalValue; i++)
+            for (int i = 0; i < initialArray.Length; i++)
             {
-                result *= 10;
-                result += i;
+                int newIndex = (i + index - 1) % initialArray.Length;
+                result[i] = initialArray[newIndex];
             }
+            return result;
+        }
 
+        private static int[] GetInitialArray(int n)
+        {
+            int[] ints = new int[n];
+            for(int i = 0; i < n; i++) ints[i] = i+1;
+            return ints;
+        }
+
+        private static int[] CutArray(int[] array, int newLength)
+        {
+            if(array.Length < newLength)
+                throw new Exception("Array length is not suitable");
+            int[] result = new int[newLength];
+            for(int i = 0; i < result.Length; i++)
+                result[i] = array[i];
             return result;
         }
     }
