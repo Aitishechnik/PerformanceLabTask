@@ -9,7 +9,7 @@
         private double k = 0;
         private double r = 0;
 
-        public void Solition(string circleParamsPath, string dotsPath)
+        public void SolveTask2(string circleParamsPath, string dotsPath)
         {
             SetCircle(circleParamsPath);
             DefinePoints(SetPoints(dotsPath));

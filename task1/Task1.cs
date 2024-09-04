@@ -5,7 +5,7 @@ namespace PerformanceLabTask
     {
         private const int CLOSING_VALUE = 1;
 
-        public static void Solution()
+        public void SolveTask1()
         {
             int n = 0;
             int m = 0;
@@ -35,7 +35,7 @@ namespace PerformanceLabTask
                 Console.Write(result[i] + (i == result.Count-1? "." : ", "));
         }
 
-        private static List<int> GetCircularArrayValues(int n, int m)
+        private List<int> GetCircularArrayValues(int n, int m)
         {
             List<int> ints = new List<int>() {CLOSING_VALUE};
             var initialArray = GetInitialArray(n);
@@ -50,7 +50,7 @@ namespace PerformanceLabTask
             return ints;
         }
 
-        private static int[] ShiftValues(int[] initialArray, int index)
+        private int[] ShiftValues(int[] initialArray, int index)
         {
             int[] result = new int[initialArray.Length];
 
@@ -62,14 +62,14 @@ namespace PerformanceLabTask
             return result;
         }
 
-        private static int[] GetInitialArray(int n)
+        private int[] GetInitialArray(int n)
         {
             int[] ints = new int[n];
             for(int i = 0; i < n; i++) ints[i] = i+1;
             return ints;
         }
 
-        private static int[] CutArray(int[] array, int newLength)
+        private int[] CutArray(int[] array, int newLength)
         {
             if(array.Length < newLength)
                 throw new Exception("Array length is not suitable");
